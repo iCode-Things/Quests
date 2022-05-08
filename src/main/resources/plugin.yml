@@ -1,0 +1,7 @@
+name: Quests
+version: '${project.version}'
+main: me.dan.quests.Quests
+api-version: 1.18
+softdepend:
+  - PluginAPI
+description: Quest Plugin using MongoDB
