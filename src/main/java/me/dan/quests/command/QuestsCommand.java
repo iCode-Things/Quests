@@ -7,6 +7,7 @@ import me.dan.pluginapi.message.Placeholder;
 import me.dan.pluginapi.util.Text;
 import me.dan.quests.Quests;
 import me.dan.quests.config.Messages;
+import me.dan.quests.gui.QuestProgressGui;
 import me.dan.quests.quest.Quest;
 import me.dan.quests.user.QuestProgress;
 import me.dan.quests.user.QuestUser;
@@ -25,20 +26,23 @@ public class QuestsCommand extends AbstractCommand {
     @Override
     public void perform(CommandContext commandContext) {
         Player player = (Player) commandContext.getCommandSender();
-        QuestUser questUser = Quests.getInstance().getQuestUserManager().get(player.getUniqueId());
-        for (String message : Messages.QUEST_MESSAGE.getStringList()) {
-            message = Text.c(Placeholder.apply(message, new Placeholder("{prefix}", Messages.PREFIX.getString())));
-            if (message.contains("{quests}")) {
-                for (Quest quest : Quests.getInstance().getQuestManager().getAll()) {
-                    QuestProgress questProgress = questUser.getQuestProgress(quest);
-                    Messages.QUEST_FORMAT.send(player, new Placeholder("{quest}", quest.getName()),
-                            new Placeholder("{progress}", NumberUtil.formatBigDecimal(BigDecimal.valueOf(questProgress.getAmount()))),
-                            new Placeholder("{max}", NumberUtil.formatBigDecimal(BigDecimal.valueOf(quest.getAmount()))),
-                            new Placeholder("{status}", questProgress.isComplete() ? Messages.STATUS_COMPLETE.getString() : Messages.STATUS_INCOMPLETE.getString()));
-                }
-            } else {
-                player.sendMessage(message);
-            }
-        }
+//        QuestUser questUser = Quests.getInstance().getQuestUserManager().get(player.getUniqueId());
+//        for (String message : Messages.QUEST_MESSAGE.getStringList()) {
+//            message = Text.c(Placeholder.apply(message, new Placeholder("{prefix}", Messages.PREFIX.getString())));
+//            if (message.contains("{quests}")) {
+//                for (Quest quest : Quests.getInstance().getQuestManager().getAll()) {
+//                    QuestProgress questProgress = questUser.getQuestProgress(quest);
+//                    Messages.QUEST_FORMAT.send(player, new Placeholder("{quest}", quest.getName()),
+//                            new Placeholder("{progress}", NumberUtil.formatBigDecimal(BigDecimal.valueOf(questProgress.getAmount()))),
+//                            new Placeholder("{max}", NumberUtil.formatBigDecimal(BigDecimal.valueOf(quest.getAmount()))),
+//                            new Placeholder("{status}", questProgress.isComplete() ? Messages.STATUS_COMPLETE.getString() : Messages.STATUS_INCOMPLETE.getString()));
+//                }
+//            } else {
+//                player.sendMessage(message);
+//            }
+//        }
+
+        new QuestProgressGui(player).open();
+
     }
 }
